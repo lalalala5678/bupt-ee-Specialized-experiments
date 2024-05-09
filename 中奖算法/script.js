@@ -1,8 +1,6 @@
-    var winningNumbers = [5, 12, 23, 8, 15]; // 定义中奖号码
-    var winningSpecialNumber = 22; 
-
-
 function check() {
+    const winningNumbers = JSON.parse(localStorage.getItem('winningNumbers')).split(',');;
+    const winningSpecialNumber = ~~localStorage.getItem('winningSpecialNumber');
     const userNumbers = document.getElementById('numbers').value.split(',').map(Number);
     const userSpecialNumber = Number(document.getElementById('specialNumber').value);
     
@@ -53,7 +51,7 @@ function showAdminPanel() {
     adminPanelDiv.innerHTML = `
         <div id="adminPanel" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #f9f9f9; padding: 20px; border: 2px solid #ccc; border-radius: 5px;">
             <h2 style="color: cyan;">管理员菜单</h2>
-            <button class='adim' onclick="changeLotteryPassword()">进行文件查询</button>
+            <button class='adim' onclick="changeLotteryPassword()">更改中奖号码</button>
             <button class='adim' onclick="showAllWinningNumbers()">查看中奖号码</button>
         </div>
     `;
@@ -66,13 +64,15 @@ function changeLotteryPassword() {
     var newspeicalnum = prompt("请输入新的彩票中奖特殊号码：");
     winningNumbers = newLotteryPassword;
     winningSpecialNumber = newspeicalnum;
+    localStorage.setItem('winningNumbers', JSON.stringify(winningNumbers));
+    localStorage.setItem('winningSpecialNumber', winningSpecialNumber);
     // 这里可以将新的彩票中奖密码保存到后端数据库或者本地存储中
-    alert('彩票中奖密码已成功更改为：' + winningNumbers + '\n ' + '彩票中奖特殊号码已成功更改为：' + newspeicalnum);
+    alert('彩票中奖密码已成功更改为：' + JSON.parse (localStorage.getItem('winningNumbers')) + '\n ' + '彩票中奖特殊号码已成功更改为：' + localStorage.getItem('winningSpecialNumber'));
     
 }
 
 // 输出所有中奖号码功能
 function showAllWinningNumbers() {
     // 这里可以编写代码来从后端获取所有中奖号码并显示在页面上
-    alert('彩票中奖密码为：' + winningNumbers + '\n ' + '彩票中奖特殊号码为：' + winningSpecialNumber);
+    alert('彩票中奖密码为：' +JSON.parse (localStorage.getItem('winningNumbers')) + '\n ' + '彩票中奖特殊号码为：' + localStorage.getItem('winningSpecialNumber'));
 }

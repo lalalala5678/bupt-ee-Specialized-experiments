@@ -1,0 +1,25 @@
+#grid-container {
+    position: relative;
+    margin: 20px 0;
+    border: 1px solid black;
+}
+.cell {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+}
+.point {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background-color: blue;
+    transform: translate(-50%, -50%);
+}
+.controls {
+    margin: 20px;
+}
+input[type="number"], select {
+    margin: 0 10px;
+}

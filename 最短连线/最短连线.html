@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>可配置网格路径查找器</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="controls">
+        <label for="gridSize">网格大小:</label>
+        <input id="gridSize" type="number" value="10" min="5" max="20">
+        <label for="pointsCount">节点数量:</label>
+        <input id="pointsCount" type="number" value="5" min="1" max="20">
+        <label for="connectionType">连线模式:</label>
+        <select id="connectionType">
+            <option value="diagonal">包括斜线</option>
+            <option value="straight">仅直线</option>
+        </select>
+        <button onclick="applySettings()">应用设置</button>
+        <button onclick="addRandomPoints()">添加随机节点</button>
+        <button onclick="findPaths()">查找最短路径</button>
+    </div>
+    <div id="grid-container"></div>
+    <script src="script.js"></script>
+</body>
+</html>
