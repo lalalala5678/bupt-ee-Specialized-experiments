@@ -23,3 +23,8 @@
 input[type="number"], select {
     margin: 0 10px;
 }
+/* 在 styles.css 中添加以下样式 */
+
+.path {
+    background-color: #00FF00; /* 设置路径的背景颜色为绿色 */
+}
