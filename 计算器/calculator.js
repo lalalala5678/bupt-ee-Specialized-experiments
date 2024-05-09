@@ -4,16 +4,21 @@ function input(value) {
     display.value += value;
 }
 
-// 计算表达式并显示结果
+
 function calculate() {
     const display = document.getElementById('display');
     try {
-        // 使用 eval 安全地计算表达式，这里简化了代码安全性处理，实际使用时需要更安全的实现
-        display.value = eval(display.value);
+        const result = eval(display.value);  // 注意安全风险
+        display.value = result;
+
+        // 创建并触发自定义事件
+        const event = new CustomEvent('calculationCompleted', { detail: { result: result } });
+        document.dispatchEvent(event);
     } catch (error) {
         display.value = 'Error';
     }
 }
+
 
 // 清除显示
 function clearDisplay() {
