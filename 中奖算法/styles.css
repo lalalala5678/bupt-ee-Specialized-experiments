@@ -2,6 +2,19 @@ body {
     font-family: Arial, sans-serif;
     text-align: center;
     padding: 50px;
+
+    background: linear-gradient(270deg, #5028a873, #7f39ca);
+    background-size: 4000% 4000%;  /* 增加背景尺寸，确保动画平滑 */
+
+    /* 应用动画 */
+    animation: BackgroundGradient 15s ease infinite;
+    color: rgb(100, 10, 10);
+}
+
+@keyframes BackgroundGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 input[type="text"] {
@@ -18,6 +31,12 @@ button {
     color: white;
     border: none;
     border-radius: 5px;
+}
+
+.adim{
+    background-color: cyan;
+     color: black;
+      font-style: initial;
 }
 
 button:hover {
