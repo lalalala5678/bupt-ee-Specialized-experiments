@@ -11,10 +11,10 @@ function init3D() {
     renderer.setSize(window.innerWidth/2, window.innerHeight);
     document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); 
+    const ambientLight = new THREE.AmbientLight(0xaaaaaa, 0.5); 
     scene.add(ambientLight);
 
-    const pointLight = new THREE.PointLight(0xffffff, 1);
+    const pointLight = new THREE.PointLight(0xaaaaaa, 10);
     pointLight.position.set(1, 1, 1);
     scene.add(pointLight);
 

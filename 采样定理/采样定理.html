@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>采样定理演示</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; }
+        canvas { border: 1px solid #ccc; }
+        
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="800" height="400"></canvas>
+    <script src="samplingTheorem.js"></script>
+    <div>
+        <label for="samplingRateControl">采样率调整:</label>
+        <input type="range" id="samplingRateControl" min="1" max="100" value="30">
+    </div>
+    <br>
+    <br>
+    <div>
+        <label for="frequencyControl">信号频率调整:</label>
+        <input type="range" id="frequencyControl" min="1" max="10" value="5">
+    </div>
+    
+</body>
+</html>

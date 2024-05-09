@@ -10,18 +10,12 @@ function playFrequency(frequency, duration) {
 }
 
 function autoPlay() {
-    let frequency = 100; // 初始频率100Hz
-    const interval = setInterval(() => {
-        if (frequency > 2000) {
-            clearInterval(interval);
-            return;
-        }
-        playFrequency(frequency, 0.5);
-        frequency += 100;
-    }, 500);
+    playFrequency(1, A, 0.5);
 }
 
 document.getElementById('autoPlay').addEventListener('click', autoPlay);
+
+
 
 function composeMusic() {
     const notes = document.getElementById('composeInput').value.split('/');
@@ -48,7 +42,7 @@ document.querySelectorAll('.key').forEach(key => {
     key.addEventListener('click', () => {
         const note = key.getAttribute('data-note'); // 假设 data-note 属性包含音符和倍频，如 'A3'
         const [noteName, octave] = note.split('');
-        playFrequency(noteName, octave, 1); // 持续时间为1秒
+        playFrequency(noteName, octave, 0.5); // 持续时间为1秒
     });
 });
 
