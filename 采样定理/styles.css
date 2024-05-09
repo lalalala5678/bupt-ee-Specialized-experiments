@@ -5,8 +5,8 @@ body {
     justify-content: center;
     height: 100vh;
     
-    background: linear-gradient(270deg, #5d53c0, #6b17c5);
-    background-size: 400% 400%;  /* 增加背景尺寸，确保动画平滑 */
+    background: linear-gradient(270deg, #5028a873, #7f39ca);
+    background-size: 4000% 4000%;  /* 增加背景尺寸，确保动画平滑 */
 
     /* 应用动画 */
     animation: BackgroundGradient 15s ease infinite;

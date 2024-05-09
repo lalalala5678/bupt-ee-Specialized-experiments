@@ -11,18 +11,17 @@ function init3D() {
     renderer.setSize(window.innerWidth/2, window.innerHeight);
     document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-    const ambientLight = new THREE.AmbientLight(0xaaaaaa, 0.5); 
-    scene.add(ambientLight);
-
-    const pointLight = new THREE.PointLight(0xaaaaaa, 10);
-    pointLight.position.set(1, 1, 1);
+    const pointLight = new THREE.PointLight(0xffffff, 1);
+    pointLight.position.set(-1, 2, 4);
     scene.add(pointLight);
 
 
     const geometry = new THREE.BoxGeometry(2,2,2);
-    const material = new THREE.MeshBasicMaterial({ color: 0xaaaaaa });
+    const material = new THREE.MeshPhongMaterial({color: 0x550c2b9d});
     cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
+
+
 
     renderer.shadowMap.enabled = true;
     pointLight.castShadow = true;
@@ -35,7 +34,7 @@ function init3D() {
 
     document.addEventListener('calculationCompleted', (e) => {
         const result = e.detail.result;
-        cube.material.color.setHex(result % 2 === 0 ? 0x00ff00 : 0xff0000);
+        cube.material.color.setHex(result % 2 === 0 ? 0x00ffaa : 0xff0000);
     });
 
     animate();
