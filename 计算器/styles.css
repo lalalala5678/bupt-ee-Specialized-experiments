@@ -52,26 +52,26 @@ body, html {
   box-shadow: 0 2px 3px rgba(0,0,0,0.1);
 }
 
-/* Button colors by type */
+
 .number {
-  background-color: #4CAF50; /* Green */
+  background-color: #4CAF50;
 }
 
 .operator {
-  background-color: #f44336; /* Red */
+  background-color: #f44336; 
 }
 
 .function {
-  background-color: #ffeb3b; /* Yellow */
-  color: #333; /* Dark text color for better contrast */
+  background-color: #ffeb3b; 
+  color: #333; 
 }
 
 .equal {
-  background-color: #2196F3; /* Blue */
+  background-color: #2196F3; 
 }
 
 .clear {
-  background-color: #FF9800; /* Orange */
+  background-color: #FF9800; 
 }
 
 #container {
