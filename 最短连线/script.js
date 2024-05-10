@@ -40,8 +40,9 @@ function applySettings() {
     gridSize = parseInt(document.getElementById("gridSize").value);
     numberOfPoints = parseInt(document.getElementById("pointsCount").value);
     connectionType = document.getElementById("connectionType").value;
-    generateGrid();
+    drawMST(); // Redraw MST with the new settings
 }
+
 
 function addCustomPoint() {
     const x = parseInt(document.getElementById('nodeX').value);
@@ -95,8 +96,19 @@ function createEdges() {
         for (let j = i + 1; j < nodes.length; j++) {
             const [x1, y1] = nodes[i].split(',').map(Number);
             const [x2, y2] = nodes[j].split(',').map(Number);
+            // Calculate distance
             const distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-            edges.push({start: nodes[i], end: nodes[j], weight: distance});
+
+            // Only add edges for straight lines if 'straight' is selected
+            if (connectionType === "straight") {
+                // Check if the nodes are aligned either horizontally or vertically
+                if (x1 === x2 || y1 === y2) {
+                    edges.push({start: nodes[i], end: nodes[j], weight: distance});
+                }
+            } else {
+                // 'diagonal' includes all possible connections
+                edges.push({start: nodes[i], end: nodes[j], weight: distance});
+            }
         }
     }
     return edges;
@@ -108,6 +120,7 @@ function drawMST() {
     const uf = new UnionFind(nodes);
     let mst = [];
     edges.sort((a, b) => a.weight - b.weight);
+
     edges.forEach(edge => {
         if (uf.find(edge.start) !== uf.find(edge.end)) {
             uf.union(edge.start, edge.end);
@@ -122,15 +135,36 @@ function drawMST() {
     mst.forEach(edge => {
         const [x1, y1] = edge.start.split(',').map(Number);
         const [x2, y2] = edge.end.split(',').map(Number);
-        ctx.beginPath();
-        ctx.moveTo(y1 * 20, x1 * 20);
-        ctx.lineTo(y2 * 20, x2 * 20);
-        ctx.strokeStyle = "green";
-        ctx.lineWidth = 3;
-        ctx.stroke();
+
+        if (connectionType === "straight" && x1 !== x2 && y1 !== y2) {
+            // 为了拆分斜线为一条水平线和一条垂直线，选择中间点为转折点
+            // 水平线至转折点
+            ctx.beginPath();
+            ctx.moveTo(y1 * 20, x1 * 20);
+            ctx.lineTo(y1 * 20, x2 * 20); // 水平至x2的垂直位置
+            ctx.strokeStyle = "green";
+            ctx.lineWidth = 4;
+            ctx.stroke();
+
+            // 转折点至终点的垂直线
+            ctx.beginPath();
+            ctx.moveTo(y1 * 20, x2 * 20);
+            ctx.lineTo(y2 * 20, x2 * 20); // y1到y2的位置
+            ctx.strokeStyle = "green";
+            ctx.lineWidth = 4;
+            ctx.stroke();
+        } else {
+            // 如果是直线模式且为水平或垂直线，直接绘制
+            ctx.beginPath();
+            ctx.moveTo(y1 * 20, x1 * 20);
+            ctx.lineTo(y2 * 20, x2 * 20);
+            ctx.strokeStyle = "green";
+            ctx.lineWidth = 3;
+            ctx.stroke();
+        }
     });
 
-    // Draw nodes on top of the edges
+    // 重新绘制节点以确保它们在连线上方可见
     nodes.forEach(node => {
         const [x, y] = node.split(',').map(Number);
         ctx.fillStyle = "red";
@@ -141,3 +175,7 @@ function drawMST() {
 }
 
 generateGrid(); // 初始化网格
+
+
+
+

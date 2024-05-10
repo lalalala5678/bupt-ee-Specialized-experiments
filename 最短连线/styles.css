@@ -1,30 +1,73 @@
-#grid-container {
-    position: relative;
-    margin: 20px 0;
-    border: 1px solid black;
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 20px;
 }
-.cell {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    border-right: 1px solid black;
-    border-bottom: 1px solid black;
-}
-.point {
-    position: absolute;
-    width: 5px;
-    height: 5px;
-    background-color: blue;
-    transform: translate(-50%, -50%);
-}
-.controls {
-    margin: 20px;
-}
-input[type="number"], select {
-    margin: 0 10px;
-}
-/* 在 styles.css 中添加以下样式 */
 
-.path {
-    background-color: #00FF00; /* 设置路径的背景颜色为绿色 */
+@keyframes BackgroundGradient {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.controls {
+    background: linear-gradient(270deg, #5028a8, #7f39ca, #a450ff, #7f39ca, #5028a8);
+    background-size: 2000% 2000%;  /* Increase the size for a smoother gradient transition */
+    animation: BackgroundGradient 30s ease infinite;
+    color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+}
+
+label {
+    margin-right: 10px;
+    font-weight: bold;
+    color: #fff; /* Improve visibility against the gradient background */
+}
+
+input, select, button {
+    padding: 8px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s, transform 0.2s ease-in-out;
+}
+
+input:focus, select:focus, button:focus {
+    border-color: #0056b3;
+    outline: none;
+    transform: scale(1.05); /* Add scale effect to emphasize focus */
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s ease-in-out;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: scale(1.1); /* Slightly enlarge buttons on hover */
+}
+
+canvas {
+    display: block; /* Removes bottom margin/gap */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-top: 20px;
+}
+
+hr {
+    width: 100%;
+    border-color: #eee;
 }
