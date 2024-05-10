@@ -13,7 +13,7 @@
         <label for="pointsCount">节点数量:</label>
         <input id="pointsCount" type="number" value="5" min="1" max="20">
         <label for="connectionType">连线模式:</label>
-        <select id="connectionType"> 
+        <select id="connectionType">
             <option value="diagonal">包括斜线</option>
             <option value="straight">仅直线</option>
         </select>
@@ -21,7 +21,7 @@
         <button onclick="addRandomPoints()">添加随机节点</button>
         <button onclick="findPaths()">查找最短路径</button>
     </div>
-    <div id="grid-container"></div>
+    <canvas id="gridCanvas"></canvas>
     <script src="script.js"></script>
 </body>
 </html>
