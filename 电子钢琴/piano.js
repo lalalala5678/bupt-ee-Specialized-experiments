@@ -10,10 +10,27 @@ function playFrequency(frequency, duration) {
 }
 
 function autoPlay() {
-    playFrequency(1, A, 0.5);
+    let currentTime = 0;
+    const noteDuration = 0.5; // 每个音符播放的时长，单位为秒
+    const delayBetweenNotes = 0.1; // 音符之间的延迟，单位为秒
+
+    // 遍历每个八度
+    for (const octave in frequencies) {
+        // 遍历每个音符
+        for (const note in frequencies[octave]) {
+            const frequency = frequencies[octave][note];
+            // 使用setTimeout来安排每个音符的播放时间
+            setTimeout(() => {
+                playFrequency(note, octave, noteDuration);
+            }, currentTime * 1000); // 将时间转换为毫秒
+            // 更新下一个音符的播放时间
+            currentTime += noteDuration + delayBetweenNotes;
+        }
+    }
 }
 
-document.getElementById('autoPlay').addEventListener('click', autoPlay);
+
+
 
 
 
@@ -61,5 +78,7 @@ function playFrequency(note, octave, duration) {
     oscillator.frequency.setValueAtTime(frequency, audioCtx.currentTime);
     oscillator.connect(audioCtx.destination);
     oscillator.start();
-    oscillator.stop(audioCtx.currentTime + duration);
+    setTimeout(() => {
+        oscillator.stop();
+    }, duration * 1000); // 停止播放，时间也转换为毫秒
 }
