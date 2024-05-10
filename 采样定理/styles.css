@@ -6,9 +6,8 @@ body {
     height: 100vh;
     
     background: linear-gradient(270deg, #5028a873, #7f39ca);
-    background-size: 4000% 4000%;  /* 增加背景尺寸，确保动画平滑 */
+    background-size: 4000% 4000%;  
 
-    /* 应用动画 */
     animation: BackgroundGradient 15s ease infinite;
     color: rgb(100, 10, 10);
     

@@ -18,8 +18,8 @@ document.addEventListener("DOMContentLoaded", function() {
     
     function drawSignal(frequency, timeOffset) {
         ctx.beginPath();
-        ctx.strokeStyle = '#00BCD4'; // 使用更加鲜艳的颜色
-        ctx.lineWidth = 2; // 加粗波形
+        ctx.strokeStyle = '#00BCD4';
+        ctx.lineWidth = 2; 
         ctx.moveTo(0, height / 2);
         for (let x = 0; x < width; x++) {
             const y = height / 2 + Math.sin((x / width * 2 * Math.PI * frequency) + timeOffset) * height / 4;
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
         for (let x = 0; x < width; x += step) {
             const y = height / 2 + Math.sin((x / width * 2 * Math.PI * frequency) + timeOffset) * height / 4;
             ctx.beginPath();
-            ctx.arc(x, y, 6, 0, 2 * Math.PI); // 增加点的大小
+            ctx.arc(x, y, 6, 0, 2 * Math.PI); 
             ctx.fill();
         }
     }
@@ -49,12 +49,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
     draw();
 
-    // 监听采样率变化的控件，例如滑块，调整采样率
+
     document.getElementById('samplingRateControl').addEventListener('input', function(event) {
         samplingRate = parseInt(event.target.value);
     });
 
-    // 监听信号频率变化的控件
     document.getElementById('frequencyControl').addEventListener('input', function(event) {
         signalFrequency = parseInt(event.target.value);
     });

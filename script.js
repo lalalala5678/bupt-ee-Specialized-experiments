@@ -3,7 +3,7 @@ const ctx = canvas.getContext("2d");
 let gridSize = 10;
 let numberOfPoints = 5;
 let connectionType = "diagonal";
-let nodeCoordinates = {}; // 用于存储节点坐标的对象
+let nodeCoordinates = {}; 
 
 function generateGrid() {
     canvas.width = gridSize * 20;
@@ -34,14 +34,14 @@ function addRandomPoints() {
         ctx.fill();
     }
 
-    drawMST(); // Draw the MST after adding points
+    drawMST(); 
 }
 
 function applySettings() {
     gridSize = parseInt(document.getElementById("gridSize").value);
     numberOfPoints = parseInt(document.getElementById("pointsCount").value);
     connectionType = document.getElementById("connectionType").value;
-    drawMST(); // Redraw MST with the new settings
+    drawMST(); 
 }
 
 
@@ -60,12 +60,12 @@ function addCustomPoint() {
     ctx.arc(y * 20, x * 20, nodeRadius, 0, Math.PI * 2);
     ctx.fill();
     
-    drawMST(); // 更新最小生成树
+    drawMST(); 
 }
 
 document.addEventListener("keydown", function(event) {
     if (event.key === " ") {
-        addRandomPoints(); // 添加随机节点
+        addRandomPoints(); 
     }
 });
 
@@ -78,7 +78,7 @@ class UnionFind {
         if (this.parent[item] === item) {
             return item;
         }
-        this.parent[item] = this.find(this.parent[item]); // Path compression
+        this.parent[item] = this.find(this.parent[item]);
         return this.parent[item];
     }
     union(x, y) {
@@ -97,17 +97,17 @@ function createEdges() {
         for (let j = i + 1; j < nodes.length; j++) {
             const [x1, y1] = nodes[i].split(',').map(Number);
             const [x2, y2] = nodes[j].split(',').map(Number);
-            // Calculate distance
+            
             const distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 
-            // Only add edges for straight lines if 'straight' is selected
+            
             if (0) {
-                // Check if the nodes are aligned either horizontally or vertically
+               
                 if (x1 === x2 || y1 === y2) {
                     edges.push({start: nodes[i], end: nodes[j], weight: distance});
                 }
             } else {
-                // 'diagonal' includes all possible connections
+               
                 edges.push({start: nodes[i], end: nodes[j], weight: distance});
             }
         }
@@ -132,7 +132,7 @@ function drawMST() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     generateGrid();
 
-    // Draw MST edges
+   
     mst.forEach(edge => {
         const [x1, y1] = edge.start.split(',').map(Number);
         const [x2, y2] = edge.end.split(',').map(Number);
@@ -142,7 +142,7 @@ function drawMST() {
             const horizontalFirst = Math.abs(x1 - x2) < Math.abs(y1 - y2);
 
             if (horizontalFirst) {
-                // 水平连接到同一x坐标
+                
                 ctx.beginPath();
                 ctx.moveTo(y1 * 20, x1 * 20);
                 ctx.lineTo(y2 * 20, x1 * 20);
@@ -150,7 +150,7 @@ function drawMST() {
                 ctx.lineWidth = 4;
                 ctx.stroke();
 
-                // 垂直连接到同一y坐标
+                
                 ctx.beginPath();
                 ctx.moveTo(y2 * 20, x1 * 20);
                 ctx.lineTo(y2 * 20, x2 * 20);
@@ -158,7 +158,7 @@ function drawMST() {
                 ctx.lineWidth = 4;
                 ctx.stroke();
             } else {
-                // 垂直连接到同一x坐标
+               
                 ctx.beginPath();
                 ctx.moveTo(y1 * 20, x1 * 20);
                 ctx.lineTo(y1 * 20, x2 * 20);
@@ -167,7 +167,7 @@ function drawMST() {
 
                 ctx.stroke();
 
-                // 水平连接到同一y坐标
+                
                 ctx.beginPath();
                 ctx.moveTo(y1 * 20, x2 * 20);
                 
@@ -179,7 +179,7 @@ function drawMST() {
                 
             }
         } else {
-            // 普通直线连接
+           
             ctx.beginPath();
             ctx.moveTo(y1 * 20, x1 * 20);
             ctx.lineTo(y2 * 20, x2 * 20);
@@ -189,7 +189,7 @@ function drawMST() {
         }
     });
 
-    // 重新绘制节点以确保它们在连线上方可见
+    
     nodes.forEach(node => {
         const [x, y] = node.split(',').map(Number);
         ctx.fillStyle = "red";
@@ -200,50 +200,50 @@ function drawMST() {
 }
 
 function findShortestPath() {
-    const queue = [{x: 0, y: 0, path: []}]; // 初始队列，包含起点，以及到达该点的路径
-    const visited = {}; // 用于记录已经访问过的节点
+    const queue = [{x: 0, y: 0, path: []}]; 
+    const visited = {}; 
 
     while (queue.length > 0) {
-        const {x, y, path} = queue.shift(); // 从队列中取出一个节点
+        const {x, y, path} = queue.shift();
         const key = `${x},${y}`;
 
-        // 如果当前节点已经访问过或者是墙壁，则跳过
+        
         if (visited[key] || isWall(x, y)) {
             console.log(`Skipping wall or visited node at (${x}, ${y})`);
             continue;
         }
 
-        // 将当前节点标记为已访问
+        
         visited[key] = true;
         console.log(`Visiting node at (${x}, ${y})`);
 
         // 检查当前节点是否为目标节点
         if (x === gridSize - 1 && y === gridSize - 1) {
-            // 如果是目标节点，则绘制路径并返回
+            
             drawPath(path);
             console.log("Path found:", path);
             return;
         }
 
-        // 向四个方向扩展，并将下一步的路径加入队列中
+       
         const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
         for (const [dx, dy] of directions) {
             const nx = x + dx;
             const ny = y + dy;
 
-            // 检查新节点是否在网格范围内
+           
             if (nx >= 0 && nx < gridSize && ny >= 0 && ny < gridSize) {
                 queue.push({x: nx, y: ny, path: [...path, {x: nx, y: ny}]});
             }
         }
     }
 
-    // 如果没有找到路径，打印错误消息
+   
     console.log("No path found!");
 }
 
 function isWall(x, y) {
-    // 定义检查点的偏移数组，分布在每个方格的四条边的中点
+    
     const offsets = [
         { dx: 10, dy: 0 },   // 上边界中点
         { dx: 10, dy: 20 },  // 下边界中点
@@ -260,7 +260,7 @@ function isWall(x, y) {
         }
     });
 
-    // 如果有任何边界点是蓝色的，我们认为存在墙壁
+   
     return blueCount > 0;
 }
 
