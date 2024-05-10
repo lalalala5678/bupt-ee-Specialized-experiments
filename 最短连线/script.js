@@ -137,24 +137,18 @@ function drawMST() {
         const [x2, y2] = edge.end.split(',').map(Number);
 
         if (connectionType === "straight" && x1 !== x2 && y1 !== y2) {
-            // 为了拆分斜线为一条水平线和一条垂直线，选择中间点为转折点
-            // 水平线至转折点
+            // 分解斜线为一条水平线和一条垂直线
+            // 检查两节点的相对位置并决定先绘制水平还是垂直线
+            // 选择水平先于垂直的绘制顺序
             ctx.beginPath();
             ctx.moveTo(y1 * 20, x1 * 20);
-            ctx.lineTo(y1 * 20, x2 * 20); // 水平至x2的垂直位置
+            ctx.lineTo(y2 * 20, x2 * 20);
+            
             ctx.strokeStyle = "green";
-            ctx.lineWidth = 4;
-            ctx.stroke();
-
-            // 转折点至终点的垂直线
-            ctx.beginPath();
-            ctx.moveTo(y1 * 20, x2 * 20);
-            ctx.lineTo(y2 * 20, x2 * 20); // y1到y2的位置
-            ctx.strokeStyle = "green";
-            ctx.lineWidth = 4;
+            ctx.lineWidth = 3;
             ctx.stroke();
         } else {
-            // 如果是直线模式且为水平或垂直线，直接绘制
+            // 如果是水平或垂直连接，直接绘制
             ctx.beginPath();
             ctx.moveTo(y1 * 20, x1 * 20);
             ctx.lineTo(y2 * 20, x2 * 20);
@@ -175,7 +169,3 @@ function drawMST() {
 }
 
 generateGrid(); // 初始化网格
-
-
-
-
