@@ -3,13 +3,12 @@ const ctx = canvas.getContext("2d");
 let gridSize = 10;
 let numberOfPoints = 5;
 let connectionType = "diagonal";
+let nodeCoordinates = {}; // 用于存储节点坐标的对象
 
 function generateGrid() {
     canvas.width = gridSize * 20;
     canvas.height = gridSize * 20;
-    
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
     for (let i = 0; i < gridSize; i++) {
         for (let j = 0; j < gridSize; j++) {
             ctx.strokeRect(j * 20, i * 20, 20, 20);
@@ -18,29 +17,24 @@ function generateGrid() {
 }
 
 function addRandomPoints() {
-    // 清除 Canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // 重新绘制网格
     generateGrid();
+    nodeCoordinates = {};
 
-    // 添加随机节点到网格交点处
-    const nodeRadius = 5; // 节点的半径大小
+    const nodeRadius = 5;
     for (let i = 0; i < numberOfPoints; i++) {
-        // 生成随机交点的位置
-        const x = Math.floor(Math.random() * (gridSize - 1)) * 20 ; 
-        const y = Math.floor(Math.random() * (gridSize - 1)) * 20 ;
+        const x = Math.floor(Math.random() * gridSize);
+        const y = Math.floor(Math.random() * gridSize);
 
-        // 在交点处绘制节点
+        nodeCoordinates[`${x},${y}`] = true;
         ctx.fillStyle = "red";
         ctx.beginPath();
-        ctx.arc(y, x, nodeRadius, 0, Math.PI * 2);
+        ctx.arc(y * 20, x * 20, nodeRadius, 0, Math.PI * 2);
         ctx.fill();
     }
+
+    drawMST(); // Draw the MST after adding points
 }
-
-
-
 
 function applySettings() {
     gridSize = parseInt(document.getElementById("gridSize").value);
@@ -49,39 +43,101 @@ function applySettings() {
     generateGrid();
 }
 
-function findPaths() {
-    // 清除之前的路径绘制
+function addCustomPoint() {
+    const x = parseInt(document.getElementById('nodeX').value);
+    const y = parseInt(document.getElementById('nodeY').value);
+    if (isNaN(x) || isNaN(y) || x < 0 || y < 0 || x >= gridSize || y >= gridSize) {
+        alert('请输入有效的坐标！');
+        return;
+    }
+
+    const nodeRadius = 5;
+    nodeCoordinates[`${x},${y}`] = true;
+    ctx.fillStyle = "red";
+    ctx.beginPath();
+    ctx.arc(y * 20, x * 20, nodeRadius, 0, Math.PI * 2);
+    ctx.fill();
+    
+    drawMST(); // 更新最小生成树
+}
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === " ") {
+        addRandomPoints(); // 添加随机节点
+    }
+});
+
+class UnionFind {
+    constructor(elements) {
+        this.parent = {};
+        elements.forEach(e => this.parent[e] = e);
+    }
+    find(item) {
+        if (this.parent[item] === item) {
+            return item;
+        }
+        this.parent[item] = this.find(this.parent[item]); // Path compression
+        return this.parent[item];
+    }
+    union(x, y) {
+        let rootX = this.find(x);
+        let rootY = this.find(y);
+        if (rootX !== rootY) {
+            this.parent[rootY] = rootX;
+        }
+    }
+}
+
+function createEdges() {
+    let edges = [];
+    let nodes = Object.keys(nodeCoordinates);
+    for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+            const [x1, y1] = nodes[i].split(',').map(Number);
+            const [x2, y2] = nodes[j].split(',').map(Number);
+            const distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+            edges.push({start: nodes[i], end: nodes[j], weight: distance});
+        }
+    }
+    return edges;
+}
+
+function drawMST() {
+    const edges = createEdges();
+    const nodes = Object.keys(nodeCoordinates);
+    const uf = new UnionFind(nodes);
+    let mst = [];
+    edges.sort((a, b) => a.weight - b.weight);
+    edges.forEach(edge => {
+        if (uf.find(edge.start) !== uf.find(edge.end)) {
+            uf.union(edge.start, edge.end);
+            mst.push(edge);
+        }
+    });
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    generateGrid();
 
-    // 获取网格大小和节点数量
-    const gridSize = parseInt(document.getElementById("gridSize").value);
-    const pointsCount = parseInt(document.getElementById("pointsCount").value);
-    const connectionType = document.getElementById("connectionType").value;
+    // Draw MST edges
+    mst.forEach(edge => {
+        const [x1, y1] = edge.start.split(',').map(Number);
+        const [x2, y2] = edge.end.split(',').map(Number);
+        ctx.beginPath();
+        ctx.moveTo(y1 * 20, x1 * 20);
+        ctx.lineTo(y2 * 20, x2 * 20);
+        ctx.strokeStyle = "green";
+        ctx.lineWidth = 3;
+        ctx.stroke();
+    });
 
-    // 获取起点和终点的坐标
-    const startPoint = { x: Math.floor(Math.random() * gridSize), y: Math.floor(Math.random() * gridSize) };
-    const endPoint = { x: Math.floor(Math.random() * gridSize), y: Math.floor(Math.random() * gridSize) };
-
-    // 创建起点和终点节点
-    const startNode = { x: startPoint.x * 20 + 10, y: startPoint.y * 20 + 10 };
-    const endNode = { x: endPoint.x * 20 + 10, y: endPoint.y * 20 + 10 };
-
-    // 绘制起点和终点
-    ctx.fillStyle = "blue";
-    ctx.beginPath();
-    ctx.arc(startNode.y, startNode.x, 6, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(endNode.y, endNode.x, 6, 0, Math.PI * 2);
-    ctx.fill();
-
-    // 绘制路径（这里需要根据实际的路径计算来绘制）
-    // 这里是示例，你需要根据具体的路径计算来绘制
-    ctx.strokeStyle = "red";
-    ctx.beginPath();
-    ctx.moveTo(startNode.y, startNode.x);
-    ctx.lineTo(endNode.y, endNode.x);
-    ctx.stroke();
+    // Draw nodes on top of the edges
+    nodes.forEach(node => {
+        const [x, y] = node.split(',').map(Number);
+        ctx.fillStyle = "red";
+        ctx.beginPath();
+        ctx.arc(y * 20, x * 20, 5, 0, Math.PI * 2);
+        ctx.fill();
+    });
 }
 
 generateGrid(); // 初始化网格
