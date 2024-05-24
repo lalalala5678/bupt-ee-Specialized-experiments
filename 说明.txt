@@ -1,0 +1,32 @@
+1. 程序结构说明
+
+原程序可以在 https://github.com/lalalala5678/bupt-ee-Specialized-experiments 下载。
+
+程序文件结构分为五个主要文件夹，分别对应不同的实验项目：
+- 采样定理
+  - 1.png、2.png、index.html、report.md、samplingTheorem.js、styles.css。
+- 电子钢琴
+  - 运行抓图.png、index.html、piano.js、report.md、styles.css。
+- 计算器
+  -calculator.js、calculator.png、index.html、report.md、styles.css、three.png、threeDGraphics.js。
+- 兑奖算法
+  - 管理员菜单.png、管理员登陆.png、显示中奖号码.png、中奖.png、index.html、report.md、script.js、styles.css。
+- 最短连线
+  - 仅直线.png、连线.png、迷宫.png、index.html、report.md、script.js、styles.css。
+
+在文件夹外的index.html、script.js及styles.css是实验最短连线的三个程序。由于在GitHub部署远端服务器时会在根目录寻找文件，所以我复制了一份在根目录，以确保服务器能够正确读取和执行文件。--部署后的网页在https://lalalala5678.github.io/bupt-ee-Specialized-experiments/。
+
+各种.png的图片是.md文档所需，所以将它们放在文件夹下，.md文档调取方便，报告为每个文件夹下的report.md，浏览器打开每个文件夹下的index.html即可运行程序,.css和.js文件为和html配套的程序。
+
+2. 推荐使用专门的Markdown文档阅读器阅读报告。
+
+报告为.md格式文件，在每个文件夹下名字为report.md。
+
+推荐老师您使用专门的Markdown文档阅读器（如Typora、Mark Text等）来阅读报告。一些在vscode无法显示的内容能够在这些阅读器中正常显示（例如图片、流程图等）
+
+3. 求高分！！我也有一定意愿在老师组内参加项目进行学习，为今后保研做准备。
+
+    O
+   /|\
+   / \
+
